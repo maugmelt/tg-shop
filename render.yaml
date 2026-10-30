@@ -1,0 +1,43 @@
+# Отдельный сервис личного каталога. Не привязывать к рабочему сервису.
+services:
+  - type: web
+    name: tg-shop
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: TG_BOT_TOKEN
+        sync: false
+      - key: TG_ADMIN_BOT_TOKEN
+        sync: false
+      - key: TG_WEBHOOK_SECRET
+        sync: false
+      - key: TG_ADMIN_WEBHOOK_SECRET
+        sync: false
+      - key: TG_WEBAPP_URL
+        sync: false
+      - key: TG_WEBHOOK_BASE_URL
+        sync: false
+      - key: TG_ADMIN_IDS
+        sync: false
+      - key: TG_DATABASE_URL
+        sync: false
+      - key: TG_ORDER_URL
+        sync: false
+      - key: TG_SHOP_NAME
+        value: Витрина
+      - key: TG_DATABASE_PATH
+        value: /tmp/tg-shop.db
+      - key: TG_CURRENCY
+        value: ₽
+      - key: TG_CHECKOUT_HINT
+        value: Проверьте позиции, сделайте скриншот и переходите в Telegram для оформления.
+      - key: TG_TERMS_TEXT
+        value: Вещи на витрине продаются в том виде, как на фото, часто в одном экземпляре. Размер и наличие подтверждайте в переписке. Чтобы оформить заказ, соберите корзину, сделайте скриншот и отправьте его в Telegram.
+      - key: TG_SEED_DEMO
+        value: "0"
+      - key: TG_DEV_OPEN
+        value: "0"
